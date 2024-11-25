@@ -22,7 +22,20 @@ class GradeCreateRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            //
+            'comment' => 'required|text',
+            'grade' => 'required|integer',
+            'user_id' => 'required|integer|exists:users,id',
+            'history_id' => 'required|integer|exists:history,id',
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'comment.required' => 'Поле "Комментарий" обязательно для заполнения.',
+            'grade.required' => 'Поле "Оценка" обязательно для заполнения.',
+            'user_id.required' => 'Поле "Пользователь" обязательно для заполнения.',
+            'history_id.required' => 'Поле "История" обязательно для заполнения.',
         ];
     }
 }
+
