@@ -22,10 +22,9 @@ class GradeUpdateRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'comment' => 'required|text',
+            'comment' => 'required|string',
             'grade' => 'required|integer',
             'user_id' => 'required|integer|exists:users,id',
-            'history_id' => 'required|integer|exists:history,id',
         ];
     }
     public function messages()

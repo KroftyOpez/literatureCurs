@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\AuthController;
 use \App\Http\Controllers\CategoryController;
+use \App\Http\Controllers\GradeController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -20,4 +21,34 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/categories/{id}', [CategoryController::class, 'update']);
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
 
+
+
+    Route::post('/grade/{history_id}', [GradeController::class, 'create']); // Создание оценки
+    Route::get('/grade/{id}', [GradeController::class, 'show']); // Просмотр конкретной оценки
+    Route::put('/grade/{id}', [GradeController::class, 'update']); // Редактирование оценки
+    Route::delete('/grade/{id}', [GradeController::class, 'destroy']); // Удаление оценки
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
