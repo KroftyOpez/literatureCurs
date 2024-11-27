@@ -24,11 +24,11 @@ class UserCreateRequest extends ApiRequest
         return [
             'email' => 'required|email|min:5|max:64|unique:users,email',
             'nickname' => 'required|string|min:2|max:64|unique:users,nickname',
-            'avatar' => 'nullable|string|min:1|max:255',
+            'avatar' => 'nullable|mimes:jpeg,png,jpg,svg|max:4096',
             'birth' => 'required|date',
             'password' => 'required|string|min:8|max:64',
-            'token' => 'nullable|string|max:255',
-            'role_id' => 'required|integer|exists:roles,id',
+            'api_token' => 'nullable|string|max:255',
+
         ];
     }
     public function messages()
@@ -44,7 +44,7 @@ class UserCreateRequest extends ApiRequest
             'nickname.max' => 'Поле "Псевдоним" должно содержать не более :max символов.',
             'nickname.min' => 'Поле "Псевдоним" должно содержать не менее :min символов.',
 
-            'avatar.max' => 'Поле "Фамилия" должно содержать не менее :max символов.',
+            'avatar.max' => 'Ваш файл не должен превышать 4 ГБ',
 
             'birth.date' => 'Дата рождения должна быть в формате YYYY-MM-DD',
 
@@ -52,7 +52,6 @@ class UserCreateRequest extends ApiRequest
             'password.min' => 'Поле "Пароль" должно содержать не менее :min символов.',
             'password.max' => 'Поле "Пароль" должно содержать не более :max символов.',
 
-            'role_id.required' => 'Поле "Роль" обязательно для заполнения.',
         ];
     }
 }

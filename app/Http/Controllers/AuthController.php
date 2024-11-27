@@ -65,6 +65,7 @@ class AuthController extends Controller
         $user = Auth::user();
         $user->api_token = null;
         $user->save();
-        return response()->json([])->setStatusCode(200);
+        return response()->json(['message' => 'Выход выполнен успешно'])->setStatusCode(200);
+
     }
 }

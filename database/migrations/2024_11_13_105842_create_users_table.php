@@ -17,12 +17,9 @@ return new class extends Migration
             $table->string('nickname', 64)->unique();
             $table->string('avatar')->nullable();
             $table->date('birth');
-            $table->string('token')->nullable();
+            $table->string('api_token')->nullable();
             $table->string('password', 64);
-
             $table->foreignId('role_id')->constrained('roles')->onUpdate('cascade');
-
-
             $table->rememberToken();
             $table->timestamps();
         });
