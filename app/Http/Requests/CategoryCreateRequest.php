@@ -23,7 +23,7 @@ class CategoryCreateRequest extends ApiRequest
     {
         return [
             'name' => 'required|string|min:1|max:64',
-            'code' => 'required|string|min:1|max:64',
+            'code' => 'required|string|min:1|max:64|unique:categories,code',
         ];
     }
 
@@ -36,6 +36,7 @@ class CategoryCreateRequest extends ApiRequest
             'code.min' => 'Поле "Код" должно содержать не менее :min символов.',
             'name.max' => 'Поле "Код" должно содержать не более :max символов.',
             'code.max' => 'Поле "Код" должно содержать не более :max символов.',
+            'code.unique' => 'Такой код уже есть',
         ];
     }
 }

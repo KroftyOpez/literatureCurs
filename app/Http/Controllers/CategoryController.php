@@ -11,64 +11,63 @@ use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $categories = Category::all();
         return response()->json($categories)->setStatusCode(200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function create(CategoryCreateRequest $request)
     {
-        $user = Auth::getUser();
-        return $user;
-        /*
-        if($user->role->code === 'admin' || $user->role->code === 'manager'){
+        $user = Auth::User();
+        if($user->role->code === 'admin'){
             $category = Category::create($request->validated());
             return response()->json($category)->setStatusCode(201);
-
         }
-*/
+        throw new ApiException('У вас нет прав для этого действия :(', 403 );
+
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Category $category)
     {
         if (empty($category->id)) {
-            throw new ApiException('Not Found ', 404);
+            throw new ApiException('Увы, не найдено', 404);
         }
 
         return response()->json($category)->setStatusCode(200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(CategoryUpdateRequest $request, Category $category)
     {
-        if (empty($category->id)) {
-            throw new ApiException('Not Found ', 404);
+        $user = Auth::getUser();
+        if($user->role->code === 'admin'){
+            if (empty($category->id)) {
+                throw new ApiException('Not Found ', 404);
+            }
+            $category->update($request->validated());
+            return response()->json($category)->setStatusCode(200);
         }
-        $category->update($request->validated());
-        return response()->json($category)->setStatusCode(200);
+        throw new ApiException('У вас нет прав для этого действия :(', 403 );
+
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(Category $category)
     {
-        if (empty($category->id)) {
-            throw new ApiException('Not Found ', 404);
+        $user = Auth::getUser();
+        if($user->role->code === 'admin'){
+            if (empty($category->id)) {
+                throw new ApiException('Not Found ', 404);
+            }
+            $category->delete();
+            return response()->json(null)->setStatusCode(204);
         }
-        $category->delete();
-        return response()->json(null)->setStatusCode(204);
+        throw new ApiException('У вас нет прав для этого действия :(', 403 );
+
     }
 }

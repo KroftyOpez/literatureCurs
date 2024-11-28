@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             'birth' => '2000-01-01',
             'role_id' => $role_admin->id,
             'password' => 'mewmew',
-            'token' => '1'
+            'api_token' => '1'
         ]);
         User::create([
             'email' => 'user@gmail.com',
@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
             'birth' => '2000-01-02',
             'role_id' => $role_user->id,
             'password' => 'mewmew2',
-            'token' => '2'
+            'api_token' => '2'
         ]);
 
     }
