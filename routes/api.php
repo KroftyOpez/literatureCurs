@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\AuthController;
 use \App\Http\Controllers\CategoryController;
 use \App\Http\Controllers\GradeController;
+use \App\Http\Controllers\UserController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -27,6 +28,10 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/grade/{id}', [GradeController::class, 'show']); // Просмотр конкретной оценки
     Route::put('/grade/{id}', [GradeController::class, 'update']); // Редактирование оценки
     Route::delete('/grade/{id}', [GradeController::class, 'destroy']); // Удаление оценки
+
+
+    Route::get('/user/{id}', [UserController::class, 'show']); // Редактирование пользователя
+    Route::put('/user/{id}', [UserController::class, 'update']); // Просмотр конкретного пользователя
 });
 
 
