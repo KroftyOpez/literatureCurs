@@ -46,6 +46,7 @@ class UserCreateRequest extends ApiRequest
 
             'avatar.max' => 'Ваш файл не должен превышать 4 ГБ',
 
+            'birth.required' => 'Поле "Дата рождения" обязательно для заполнения.',
             'birth.date' => 'Дата рождения должна быть в формате YYYY-MM-DD',
 
             'password.required' => 'Поле "Пароль" обязательно для заполнения.',
