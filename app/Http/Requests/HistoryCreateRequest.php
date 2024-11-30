@@ -24,7 +24,7 @@ class HistoryCreateRequest extends ApiRequest
         return [
             'content' => 'required|text',
             'read_time' => 'required|integer',
-            'confirmation' => 'required|boolean',
+            'confirmation' => 'boolean',                // required -
             'name' => 'required|string|min:1|max:64',
             'description' => 'required|text',
             'photo' => 'required|string|max:255',
@@ -35,7 +35,7 @@ class HistoryCreateRequest extends ApiRequest
         return [
             'content.required' => 'Поле "Контент" обязательно для заполнения.',
             'read_time.required' => 'Поле "Время прочтения" обязательно для заполнения.',
-            'confirmation.required' => 'Поле "Подтверждение" обязательно для заполнения.',
+                            // 'confirmation.required' => 'Поле "Подтверждение" обязательно для заполнения.',
             'name.required' => 'Поле "Название" обязательно для заполнения.',
             'description.required' => 'Поле "Описание" обязательно для заполнения.',
             'photo.required' => 'Поле "Фотография" обязательно для заполнения.',
