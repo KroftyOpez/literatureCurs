@@ -11,8 +11,12 @@ use \App\Http\Controllers\HistoryController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::get('/grades/{id}', [GradeController::class, 'show']); // Просмотр конкретной оценки
 
-
+ // Просмотр конкретного пользователя
+Route::get('/users/{id}', [UserController::class, 'show'])->middleware('auth');
+Route::get('/histories', [HistoryController::class, 'index']); // Просмотр всех историй
+Route::get('/histories/{id}', [HistoryController::class, 'show']); // Просмотр истории
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -26,20 +30,21 @@ Route::middleware('auth:api')->group(function () {
 
 
     Route::post('/grades/{history_id}', [GradeController::class, 'create']); // Создание оценки
-    Route::get('/grades/{id}', [GradeController::class, 'show']); // Просмотр конкретной оценки
+
     Route::put('/grades/{id}', [GradeController::class, 'update']); // Редактирование оценки
     Route::delete('/grades/{id}', [GradeController::class, 'destroy']); // Удаление оценки
 
 
-    Route::get('/users/{id}', [UserController::class, 'show']); // Редактирование пользователя
-    Route::put('/users/{id}', [UserController::class, 'update']); // Просмотр конкретного пользователя
 
-    Route::get('/histories', [HistoryController::class, 'index']); // Просмотр всех историй
-    Route::get('/histories/{id}', [HistoryController::class, 'show']); // Просмотр истории
+    Route::put('/users/{id}', [UserController::class, 'update']); // Редактирование пользователя
+
+
     Route::post('/histories', [HistoryController::class, 'create']); // Создание истории -----------
 
 
 });
+
+Route::get('/users/{id}', [UserController::class, 'show']);
 
 
 

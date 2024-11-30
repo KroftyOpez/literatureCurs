@@ -37,18 +37,29 @@ class UserController extends Controller
 
     /**
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
+
+        $corUser = Auth::user();
+        if($corUser){
+            $user = User::find($id);
+            if (!$user) {
+                return response()->json(['message' => 'Пользователь не найден'], 404);
+            }
+            if($corUser->role->code === 'admin'){
+                return response()->json($user);
+            }
+            return response()->json([
+                'nickname' => $user->nickname,
+                'avatar' => $user->avatar,
+                'lol'=> 1
+            ]);
+        }
         $user = User::find($id);
-        if (!$user) {
-            return response()->json(['message' => 'Пользователь не найден'], 404);
-        }
-
-        $userAuth = Auth::user();
-        if ($userAuth->id !== (int) $id) {
-            return response()->json(['message' => 'Доступ запрещен'], 403);
-        }
-
-        return response()->json($user);
+        return response()->json([
+            'nickname' => $user->nickname,
+            'avatar' => $user->avatar,
+            'lol'=> 'гость'
+            ]);
     }
 }

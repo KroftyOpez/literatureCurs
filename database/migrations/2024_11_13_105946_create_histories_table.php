@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text('content');
             $table->integer('read_time');
-            $table->boolean('confirmation');
+            $table->boolean('confirmation')->default(0);
             $table->string('name', 64);
             $table->text('description');
             $table->string('photo');
