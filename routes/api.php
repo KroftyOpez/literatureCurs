@@ -39,7 +39,7 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/users/{id}', [UserController::class, 'update']); // Редактирование пользователя
 
 
-    Route::post('/histories', [HistoryController::class, 'create']); // Создание истории -----------
+    Route::post('/histories', [HistoryController::class, 'create']); // Создание истории ----------- //
 
     Route::get('/users/user/{id}', [UserController::class, 'showforuser']);
     Route::get('/users/admin/{id}', [UserController::class, 'showforadmin']);
