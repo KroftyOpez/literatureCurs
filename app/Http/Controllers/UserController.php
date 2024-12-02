@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    // недоделано update
+    // недоделано update sadasda
+    //
     public function update(UserUpdateRequest $request, $id)
     {
         $userAuth = Auth::user();
