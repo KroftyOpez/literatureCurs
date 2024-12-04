@@ -34,10 +34,7 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/grades/{id}', [GradeController::class, 'update']); // Редактирование оценки
     Route::delete('/grades/{id}', [GradeController::class, 'destroy']); // Удаление оценки
 
-
-
-    Route::put('/users/{id}', [UserController::class, 'update']); // Редактирование пользователя
-
+    Route::post('/users/{id}', [UserController::class, 'update']); // Редактирование пользователя
 
     Route::post('/histories', [HistoryController::class, 'create']); // Создание истории ----------- //
 
@@ -45,6 +42,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/users/admin/{id}', [UserController::class, 'showforadmin']);
     Route::get('/all/users', [UserController::class, 'indexusers']);
     Route::get('/all/admins', [UserController::class, 'indexadmins']);
+    Route::delete('/users/user/{id}', [UserController::class, 'destroy']);
 });
 
 

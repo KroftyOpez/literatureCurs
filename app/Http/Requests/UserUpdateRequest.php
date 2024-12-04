@@ -24,31 +24,35 @@ class UserUpdateRequest extends ApiRequest
         return [
             'email' => 'email|min:5|max:64|unique:users,email',
             'nickname' => 'string|min:2|max:64|unique:users,nickname',
-            'avatar' => 'string|min:1|max:255',
+            'avatar' => 'nullable|mimes:jpeg,png,jpg,svg|max:8192',
             'birth' => 'date',
             'password' => 'string|min:8|max:64',
-            'token' => 'string|max:255',
-            'role_id' => 'integer|exists:roles,id',
+            'api_token' => 'string|max:255',
+
         ];
     }
     public function messages()
     {
         return [
+            'email.required' => 'Поле "Электронная почта" обязательно для заполнения.',
             'email.email' => 'Поле "Электронная почта" должно быть действительным адресом электронной почты.',
             'email.min' => 'Поле "Электронная почта" должно содержать не менее :min символов.',
             'email.max' => 'Поле "Электронная почта" должно содержать не более :max символов.',
             'email.unique' => 'Такая "Электронная почта" уже существует.',
 
+            'nickname.required' => 'Поле "Псевдоним" обязательно для заполнения.',
             'nickname.max' => 'Поле "Псевдоним" должно содержать не более :max символов.',
-            'nickname.min' => 'Поле "Псевдоним" должно содержать не более :min символов.',
-            'nickname.unique' => 'Такой "Псевдоним" уже существует.',
+            'nickname.min' => 'Поле "Псевдоним" должно содержать не менее :min символов.',
 
-            'avatar.max' => 'Ваш файл не должен превышать 4 ГБ',
+            'avatar.max' => 'Ваш файл не должен превышать 8 МБ',
 
+            'birth.required' => 'Поле "Дата рождения" обязательно для заполнения.',
             'birth.date' => 'Дата рождения должна быть в формате YYYY-MM-DD',
 
+            'password.required' => 'Поле "Пароль" обязательно для заполнения.',
             'password.min' => 'Поле "Пароль" должно содержать не менее :min символов.',
             'password.max' => 'Поле "Пароль" должно содержать не более :max символов.',
+
         ];
     }
 }
