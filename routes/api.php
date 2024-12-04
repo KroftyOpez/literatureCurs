@@ -41,10 +41,14 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('/histories', [HistoryController::class, 'create']); // Создание истории -----------
 
-
+    Route::get('/users/user/{id}', [UserController::class, 'showforuser']);
+    Route::get('/users/admin/{id}', [UserController::class, 'showforadmin']);
+    Route::get('/all/users', [UserController::class, 'indexusers']);
+    Route::get('/all/admins', [UserController::class, 'indexadmins']);
 });
 
-Route::get('/users/{id}', [UserController::class, 'show']);
+
+Route::get('/users/guest/{id}', [UserController::class, 'showforguest']);
 
 
 
