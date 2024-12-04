@@ -22,10 +22,16 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::get('/categories', [CategoryController::class, 'index']);
-    Route::get('/categories/{id}', [CategoryController::class, 'show']);
+    Route::get('/categories/{category}', [CategoryController::class, 'show']);
     Route::post('/categories', [CategoryController::class, 'create']);
-    Route::post('/categories/{id}', [CategoryController::class, 'update']);
-    Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
+    Route::post('/categories/{category}', [CategoryController::class, 'update']);
+    Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
+
+    Route::get('/roles', [CategoryController::class, 'index']);
+    Route::get('/roles/{role}', [CategoryController::class, 'show']);
+    Route::post('/roles', [CategoryController::class, 'create']);
+    Route::post('/roles/{role}', [CategoryController::class, 'update']);
+    Route::delete('/roles/{role}', [CategoryController::class, 'destroy']);
 
 
 
