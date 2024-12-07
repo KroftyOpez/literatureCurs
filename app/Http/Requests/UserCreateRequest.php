@@ -24,7 +24,7 @@ class UserCreateRequest extends ApiRequest
         return [
             'email' => 'required|email|min:5|max:64|unique:users,email',
             'nickname' => 'required|string|min:2|max:64|unique:users,nickname',
-            'avatar' => 'nullable|mimes:jpeg,png,jpg,svg|max:4096',
+            'avatar' => 'nullable|mimes:jpeg,png,jpg,svg|max:8192',
             'birth' => 'required|date',
             'password' => 'required|string|min:8|max:64',
             'api_token' => 'nullable|string|max:255',
@@ -44,7 +44,7 @@ class UserCreateRequest extends ApiRequest
             'nickname.max' => 'Поле "Псевдоним" должно содержать не более :max символов.',
             'nickname.min' => 'Поле "Псевдоним" должно содержать не менее :min символов.',
 
-            'avatar.max' => 'Ваш файл не должен превышать 4 ГБ',
+            'avatar.max' => 'Ваш файл не должен превышать 8 МБ',
 
             'birth.required' => 'Поле "Дата рождения" обязательно для заполнения.',
             'birth.date' => 'Дата рождения должна быть в формате YYYY-MM-DD',

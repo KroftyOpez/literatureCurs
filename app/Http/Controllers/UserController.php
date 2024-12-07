@@ -2,33 +2,47 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-    // недоделано update sadasda
-    //
+    // ready
     public function update(UserUpdateRequest $request, $id)
     {
         $userAuth = Auth::user();
-        // проверка юзера, какой авторизирован по ID
+
         if ($userAuth->id !== (int) $id) {
             return response()->json(['message' => 'Доступ запрещен'], 403);
         }
+
         $user = User::find($id);
 
         if (!$user) {
             return response()->json(['message' => 'Пользователь не найден'], 404);
         }
 
-        $updateData = $request->only(['nickname', 'avatar']);
+        $updateData = $request->only(['nickname']);
+
         if ($request->has('password')) {
-            $updateData['password'] = bcrypt($request->password); // хэш
+            $updateData['password'] = bcrypt($request->password);
         }
+
+        if ($request->hasFile('avatar')) {
+            // Удаление старого аватара
+            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
+                Storage::disk('public')->delete($user->avatar);
+            }
+
+            // Сохранение нового аватара
+            $updateData['avatar'] = $request->file('avatar')->store('avatars', 'public');
+        }
+
         $user->update($updateData);
 
         return response()->json([
@@ -117,5 +131,19 @@ class UserController extends Controller
         return response()->json([
             'message' => 'Доступ запрещен',
         ], 403);
+    }
+    //nedodelano
+    public function destroy(User $user)
+    {
+        $user = Auth::getUser();
+        if($user->role->code === 'admin'){
+            if (empty($user->id)) {
+                throw new ApiException('Не найдено', 404);
+            }
+            $user->delete();
+            return response()->json(null)->setStatusCode(204);
+        }
+        throw new ApiException('Нет доступа', 403 );
+
     }
 }
