@@ -12,4 +12,8 @@ class Category extends Model
     public function historycategory() {
         return $this->HasMany(HistoryCategory::class);
     }
+    public  function histories()
+    {
+        return $this->belongsToMany(History::class,HistoryCategory::class);
+    }
 }

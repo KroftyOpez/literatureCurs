@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class HistoryCategory extends Model
 {
+    protected $table = 'histories_categories';
     protected $fillable = ['history_id', 'category_id'];
 
     // Связь с моделью History M:1

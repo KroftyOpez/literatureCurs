@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\ApiException;
 use App\Http\Requests\CategoryCreateRequest;
 use App\Http\Requests\CategoryUpdateRequest;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,11 +34,17 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
+
+
         if (empty($category->id)) {
             throw new ApiException('Увы, не найдено', 404);
         }
+        $category->load(['histories' => function ($query) {
+        // Фильтруем истории по confirmation = 1
+        $query->where('confirmation', 1);
+    }]);
 
-        return response()->json($category)->setStatusCode(200);
+        return response()->json(CategoryResource::make($category))->setStatusCode(200);
     }
 
 
