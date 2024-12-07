@@ -36,23 +36,27 @@ class RoleController extends Controller
 
     public function show(Role $role)
     {
-        if (empty($role->id)) {
-            throw new ApiException('Увы, не найдено', 404);
-        }
+        $user = Auth::getUser();
+        if($user->role->code === 'admin'){
 
-        return response()->json($role)->setStatusCode(200);
+            if (empty($role->id)) {
+                throw new ApiException('Увы, не найдено', 404);
+            }
+            return response()->json($role)->setStatusCode(200);
+        }
+        throw new ApiException('У вас нет прав для этого действия :(', 403 );
     }
 
 
-    public function update(RoleUpdateRequest $request, Role $category)
+    public function update(RoleUpdateRequest $request, Role $role)
     {
         $user = Auth::getUser();
         if($user->role->code === 'admin'){
-            if (empty($category->id)) {
+            if (empty($role->id)) {
                 throw new ApiException('Увы, не найдено', 404);
             }
-            $category->update($request->validated());
-            return response()->json($category)->setStatusCode(200);
+            $role->update($request->validated());
+            return response()->json($role)->setStatusCode(200);
         }
         throw new ApiException('У вас нет прав для этого действия :(', 403 );
 
@@ -60,17 +64,16 @@ class RoleController extends Controller
     }
 
 
-    public function destroy(Category $category)
+    public function destroy(Role $role)
     {
         $user = Auth::getUser();
         if($user->role->code === 'admin'){
-            if (empty($category->id)) {
-                throw new ApiException('Not Found ', 404);
+            if (empty($role->id)) {
+                throw new ApiException('Увы, не найдено', 404);
             }
-            $category->delete();
+            $role->delete();
             return response()->json(null)->setStatusCode(204);
         }
         throw new ApiException('У вас нет прав для этого действия :(', 403 );
-
     }
 }
