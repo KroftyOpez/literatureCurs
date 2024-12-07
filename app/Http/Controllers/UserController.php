@@ -133,17 +133,33 @@ class UserController extends Controller
         ], 403);
     }
     //nedodelano
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        $user = Auth::getUser();
-        if($user->role->code === 'admin'){
-            if (empty($user->id)) {
-                throw new ApiException('Не найдено', 404);
-            }
-            $user->delete();
-            return response()->json(null)->setStatusCode(204);
-        }
-        throw new ApiException('Нет доступа', 403 );
+        // Получаем текущего авторизованного пользователя
+        $corUser = Auth::user();
 
+        // Проверяем, авторизован ли пользователь
+        if (!$corUser) {
+            return response()->json(['message' => 'Вы не авторизованы'], 401);
+        }
+
+        // Проверяем, является ли пользователь администратором
+        if ($corUser->role->code !== 'admin') {
+            return response()->json(['message' => 'Доступ запрещен'], 403);
+        }
+
+        // Находим пользователя по ID
+        $user = User::find($id);
+
+        // Проверяем, существует ли пользователь
+        if (!$user) {
+            return response()->json(['message' => 'Пользователь не найден'], 404);
+        }
+
+        // Удаляем пользователя
+        $user->delete();
+
+        // Возвращаем успешный ответ с сообщением
+        return response()->json(['message' => 'Пользователь был удален'], 204);
     }
 }
