@@ -15,7 +15,7 @@ Route::get('/grades/{id}', [GradeController::class, 'show']); // Просмот�
 
  // Просмотр конкретного пользователя
 Route::get('/users/{id}', [UserController::class, 'show'])->middleware('auth');
-Route::get('/histories', [HistoryController::class, 'index']); // Просмотр всех историй
+Route::get('/histories-for-users', [HistoryController::class, 'indexUser']); // Просмотр всех историй
 Route::get('/histories/{id}', [HistoryController::class, 'show']); // Просмотр истории
 
 Route::middleware('auth:api')->group(function () {
@@ -33,6 +33,10 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/roles/{role}', [CategoryController::class, 'update']);
     Route::delete('/roles/{role}', [CategoryController::class, 'destroy']);
 
+
+    Route::get('/histories-for-admin', [HistoryController::class, 'indexAdmin']); // Просмотр всех историй
+    Route::post('/histories-for-admin', [HistoryController::class, 'createAdmin']); // Создание историй для Админа
+    Route::post('/histories-for-user', [HistoryController::class, 'createUser']); // Создание историй для Юзера
 
 
     Route::post('/grades/{history_id}', [GradeController::class, 'create']); // Создание оценки

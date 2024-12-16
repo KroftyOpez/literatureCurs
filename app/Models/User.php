@@ -47,17 +47,15 @@ class User extends Authenticatable
     }
 
     // Связь с моделью Grade 1:M
-    public function grade() {
+    public function grades() {
         return $this->HasMany(Grade::class);
     }
 
     // Связь с моделью ReadStatus 1:M
-    public function readstatus() {
+    public function readstatuses() {
         return $this->HasMany(ReadStatus::class);
     }
-
-    // Связь с моделью userhistory 1:M
-    public function userhistory() {
-        return $this->HasMany(UserHistory::class);
+    public function histories() {
+        return $this->hasMany(History::class);
     }
 }

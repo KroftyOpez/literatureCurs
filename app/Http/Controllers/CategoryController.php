@@ -34,8 +34,6 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-
-
         if (empty($category->id)) {
             throw new ApiException('Увы, не найдено', 404);
         }

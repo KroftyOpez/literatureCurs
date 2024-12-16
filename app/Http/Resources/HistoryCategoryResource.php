@@ -20,6 +20,7 @@ class HistoryCategoryResource extends JsonResource
           'name' => $this->name,
           'photo' => $this->photo,
           'description' => $this->description,
+            'read_time' => $this->read_time,
             'created_at' => $this->created_at
         ];
     }

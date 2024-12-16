@@ -22,12 +22,13 @@ class HistoryCreateRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'content' => 'required|text',
+            'content' => 'required|string',
             'read_time' => 'required|integer',
-            'confirmation' => 'boolean',                // required -
             'name' => 'required|string|min:1|max:64',
-            'description' => 'required|text',
+            'description' => 'required|string',
             'photo' => 'required|string|max:255',
+            'category_ids' => 'required|array', // Проверка на массив
+            'category_ids.*' => 'integer|exists:categories,id'
         ];
     }
     public function messages()
@@ -35,7 +36,7 @@ class HistoryCreateRequest extends ApiRequest
         return [
             'content.required' => 'Поле "Контент" обязательно для заполнения.',
             'read_time.required' => 'Поле "Время прочтения" обязательно для заполнения.',
-                            // 'confirmation.required' => 'Поле "Подтверждение" обязательно для заполнения.',
+
             'name.required' => 'Поле "Название" обязательно для заполнения.',
             'description.required' => 'Поле "Описание" обязательно для заполнения.',
             'photo.required' => 'Поле "Фотография" обязательно для заполнения.',

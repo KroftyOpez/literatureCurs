@@ -9,11 +9,11 @@ class Category extends Model
 {
     protected $fillable = ['code', 'name'];
     // Связь с моделью Histories_categories 1:M
-    public function historycategory() {
+    public function historycategories() {
         return $this->HasMany(HistoryCategory::class);
     }
-    public  function histories()
+    public function histories()
     {
-        return $this->belongsToMany(History::class,HistoryCategory::class);
+        return $this->belongsToMany(History::class, 'histories_categories', 'category_id', 'history_id');
     }
 }

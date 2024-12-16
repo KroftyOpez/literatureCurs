@@ -9,19 +9,24 @@ class History extends Model
 {
     protected $fillable = ['content', 'read_time', 'confirmation', 'name', 'description', 'photo'];
 
-    public function grade() {
+    public function grades() {
         return $this->hasMany(Grade::class);
     }
 
-    public function readstatus() {
+    public function readstatuses() {
         return $this->hasMany(ReadStatus::class);
     }
 
-    public function userhistory() {
-        return $this->hasMany(UserHistory::class);
+    public function historycategories() {
+        return $this->hasMany(HistoryCategory::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function historycategory() {
-        return $this->hasMany(HistoryCategory::class);
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'histories_categories', 'history_id', 'category_id');
     }
 }

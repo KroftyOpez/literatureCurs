@@ -11,7 +11,7 @@ class Role extends Model
 
     // Связь с моделью User 1:M
 
-    public function user() {
+    public function users() {
         return $this->hasMany(User::class);
     }
 }
