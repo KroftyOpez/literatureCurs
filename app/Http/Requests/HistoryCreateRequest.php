@@ -26,7 +26,7 @@ class HistoryCreateRequest extends ApiRequest
             'read_time' => 'required|integer',
             'name' => 'required|string|min:1|max:64',
             'description' => 'required|string',
-            'photo' => 'required|string|max:255',
+            'photo' => 'required|mimes:jpeg,png,jpg,svg|max:8192',
             'category_ids' => 'required|array', // Проверка на массив
             'category_ids.*' => 'integer|exists:categories,id'
         ];

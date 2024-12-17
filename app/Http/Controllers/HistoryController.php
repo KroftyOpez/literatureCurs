@@ -39,53 +39,69 @@ class HistoryController extends Controller
     }
 
 
-
-    public function create(Request $request)
-    {
-        $user = Auth::user();
-
-        // Базовые данные истории
-        $historyData = $request->all();
-
-        if ($user->role->code === 'admin') {
-            // Устанавливаем confirmation = 0 для администратора
-            $historyData['confirmation'] = 0;
-        } elseif ($user->role->code === 'user') {
-            // Устанавливаем confirmation = 1 и user_id для обычного пользователя
-            $historyData['confirmation'] = 1;
-            $historyData['user_id'] = $user->id;
-        } else {
-            // Если роль не admin или user
-            return response()->json(['message' => 'Доступ запрещен'], 403);
-        }
-
-        // Создаём запись
-        $history = History::create($historyData);
-
-        return response()->json($history, 201);
-    }
-
     public function createAdmin(HistoryCreateRequest $request){
         $user = Auth::user();
 
         if ($user->role->code === 'admin') {
+            $path = null;
+
+            //Сохранение аватара пользователя
+            if ($request->hasFile('photo')) {
+                $path = $request->file('photo')->store('photos', 'public');
+            }
             // Создаём историю
             $history = History::create([
                 'name' => $request->name,
                 'description' => $request->description,
                 'content' => $request->content,
                 'read_time' => $request->read_time,
-                'photo' => $request->photo,
+                'photo' => $path,
                 'user_id' => $user->id,
                 'confirmation' => 1,
+
             ]);
+            $history->save();
 
             // Привязываем категории
             if ($request->has('category_ids')) {
                 $categoryIds = $request->input('category_ids'); // массив ID категорий
                 $history->categories()->sync($categoryIds);
             }
+            // Возвращаем историю с привязанными категориями
+            return new HistoryResource($history->load('categories'));
+        }
+        throw new ApiException('У вас нет прав для этого действия :(', 403 );
 
+    }
+    public function createUser(HistoryCreateRequest $request){
+
+        $user = Auth::user();
+
+        if ($user->role->code === 'admin') {
+            $path = null;
+
+            //Сохранение аватара пользователя
+            if ($request->hasFile('photo')) {
+                $path = $request->file('photo')->store('photos', 'public');
+            }
+            // Создаём историю
+            $history = History::create([
+                'name' => $request->name,
+                'description' => $request->description,
+                'content' => $request->content,
+                'read_time' => $request->read_time,
+                'photo' => $path,
+                'user_id' => $user->id,
+                'confirmation' => 0,
+
+            ]);
+            $history->save();
+
+            // Привязываем категории
+            if ($request->has('category_ids')) {
+                $categoryIds = $request->input('category_ids'); // массив ID категорий
+                $history->categories()->sync($categoryIds);
+            }
             // Возвращаем историю с привязанными категориями
             return new HistoryResource($history->load('categories'));
         }
